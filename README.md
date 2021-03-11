@@ -21,7 +21,7 @@
 
 ## Uso
 
-Para compilar el proyecto use (cxx es su compilador de C++17): `cxx *.cpp -o fountain`
+Para compilar el proyecto use (cxx es su compilador de C++17): `cxx -std=c++17 *.cpp -o fountain`
 
 Y para ejecutarlo, como ejemplo usaremos el archivo para probar el compilador: `./fountain "test.fountain"`
 
