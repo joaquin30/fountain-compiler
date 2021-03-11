@@ -33,7 +33,7 @@ La única clase es `fountain::parser`, se construye con la direccion del archivo
 
 Ejemplo:
 
-```{cpp}
+```cpp
 #include <iostream>
 #include "fountain.h"
 
