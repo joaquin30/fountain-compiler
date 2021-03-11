@@ -39,7 +39,7 @@ Ejemplo:
 
 int main() {
 	fountain::parser file("test.fountain");
-	cout << file.html();
+	std::cout << file.html();
 	return 0;
 }
 ```
