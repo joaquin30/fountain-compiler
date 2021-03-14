@@ -1,12 +1,12 @@
 #ifndef FOUNTAIN_HPP
 #define FOUNTAIN_HPP
 
+#include <algorithm>
+#include <cctype>
 #include <fstream>
 #include <string>
-#include <vector>
-#include <cctype>
 #include <utility>
-#include <algorithm>
+#include <vector>
 
 namespace fountain {
 	using namespace std;
@@ -16,8 +16,7 @@ namespace fountain {
 		character,
 		parenthetical,
 		dialogue,
-		transition,
-		empty
+		empty //temporal
 	};
 	
     class parser {
@@ -41,6 +40,7 @@ namespace fountain {
         string html();
         string tex();
         string fountain();
+        vector<pair<string, elem>> data();
     };
 }
 
