@@ -1,8 +1,8 @@
 #include <iostream>
 #include "fountain.hpp"
 
-int main (int argc, char** argv) {
+int main(int argc, char** argv) {
     fountain::parser output(argv[1]);
-    std::cout << output.tex();
+    std::cout << output.html();
     return 0;
 }
