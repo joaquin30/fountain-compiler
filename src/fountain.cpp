@@ -6,7 +6,7 @@ namespace fountain {
 		if (s1.size() < s2.size())
 			return false;
 
-		for (int i = 0, len = s2.size(); i < len; ++i) {
+		for (size_t i = 0, len = s2.size(); i < len; ++i) {
 			if (s1[i] != s2[i])
 				return false;
 		}
@@ -14,12 +14,11 @@ namespace fountain {
 		return true;
 	}
 
-	// lo elimino?, no lo uso
 	bool parser::ends_with(string_view s1, string_view s2) {
 		if (s1.size() < s2.size())
 			return false;
 
-		for (int i = s1.size() - 1, j = s2.size() - 1; j >= 0; --i, --j) {
+		for (size_t i = s1.size() - 1, j = s2.size() - 1; j >= 0; --i, --j) {
 			if (s1[i] != s2[j])
 				return false;
 		}
@@ -43,7 +42,11 @@ namespace fountain {
 	}
 
 	bool parser::is_scene_heading(string_view s) {
-		auto tmp = {"INT", "EXT", "EST", "INT./EXT", "INT/EXT", "I/E"};
+		if (s[0] == '.')
+			return true;
+
+		auto tmp = {"INT", "EXT", "EST", "INT./EXT", "INT/EXT", "I/E",
+					"int", "ext", "est", "int./ext", "int/ext", "i/e"};
 		for (auto i : tmp) {
 			if (starts_with(s, i))
 				return true;
@@ -53,9 +56,18 @@ namespace fountain {
 	}
 
 	bool parser::is_character(string_view s) {
-		return all_of(s.begin(), s.end(), [](auto i) {
-			return isupper(i) || !isalpha(i);
-		});
+		if (s[0] == '@')
+			return true;
+
+		int i = 0;
+		for (auto c : s) {
+			if (islower(c))
+				return false;
+			else if (isupper(c))
+				i++;
+		}
+
+		return i > 0;
 	}
 
 	bool parser::is_parenthetical(string_view s) {
@@ -82,7 +94,7 @@ namespace fountain {
             i++;
         }
 
-        return i >= 3;
+        return i >= 3 && i == s.size();
 	}
 
 	parser::parser(const char* file) {
@@ -113,7 +125,7 @@ namespace fountain {
         }
 
 		//codigo espageti
-		for (int i = 1; i < lines.size(); ++i) {
+		for (size_t i = 1; i < lines.size(); ++i) {
 			auto& [s, e] = lines[i];
 			auto& [prev_s, prev_e] = lines[i-1];
             if (e == elem::empty) {
@@ -129,8 +141,14 @@ namespace fountain {
 			} else if (is_transition(s) && prev_e == elem::empty) {
 				e = elem::transition;
 			} else if (is_scene_heading(s) && prev_e == elem::empty) {
+				if (s[0] == '.')
+					s.erase(s.begin());
+
 				e = elem::scene_heading;
 			} else if (is_character(s) && prev_e == elem::empty) {
+				if (s[0] == '@')
+					s.erase(s.begin());
+
 				e = elem::character;
 			} else if (is_parenthetical(s) &&
 					   (prev_e == elem::character ||
@@ -148,13 +166,18 @@ namespace fountain {
 				i--;
 			}
 		}
-/*
-		for (int i = 0; i < lines.size(); ++i) {
-			if (lines[i].second == elem::empty) {
-				lines.erase(lines.begin() + i);
-				i--;
-			}
-		}*/
+
+		if (lines.back().second == elem::character)
+			lines.back().second = elem::action;
+
+		//ineficiente
+		for (size_t i = 0, len = lines.size() - 1; i < len; ++i) {
+			if (lines[i].second == elem::character &&
+				!(lines[i+1].second == elem::dialogue ||
+				lines[i+1].second == elem::parenthetical))
+				lines[i].second = elem::action;
+		}
+
 	}
 
 	string parser::html() {
@@ -164,22 +187,22 @@ namespace fountain {
 		html_doc = R"(<!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<link rel="preconnect" href="https://fonts.gstatic.com" />
-<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
 @page {
     size: A4;
-    margin-top: 2cm;
-    margin-bottom: 3.5cm;
-	margin-left: 4cm;
-	margin-right: 2.5cm;
+    margin-top: 2.6cm;
+    margin-bottom: 3.1cm;
+	margin-left: 3.8cm;
+	margin-right: 2.6cm;
 }
 
 @media print {
-    html, body {
-        width: 21cm;
+    body {
+        margin: 0;
     }
 
 	.page_break {
@@ -188,15 +211,14 @@ namespace fountain {
 }
 
 body {
-	font-size: 17.1pt;
+	font-size: 12pt;
 	font-family: 'Courier Prime', monospace;
-    width: 21cm;
-	margin: auto;
+    width: 15.35cm;
+	margin: 10px auto;
 }
 
 p {
-	margin-top: 1em;
-	margin-bottom: 0;
+	margin: 0;
 }
 
 .scene_heading {
@@ -204,19 +226,17 @@ p {
 }
 
 .character {
-    margin-left: 7.2cm;
+    margin-left: 5.3cm;
 }
 
 .parenthetical {
-	margin-top: 0;
-    margin-left: 5.4cm;
-    width: 9.4cm;
+    margin-left: 3.95cm;
+    width: 6.9cm;
 }
 
 .dialogue {
-	margin-top: 0;
-    margin-left: 3.6cm;
-    width: 13cm;
+    margin-left: 2.65cm;
+    width: 9.55cm;
 }
 
 .transition {
@@ -266,6 +286,7 @@ p {
 				break;
 
 			default:
+				html_doc += "<br>\n";
 				break;
 			}
 		}

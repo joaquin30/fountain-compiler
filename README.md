@@ -27,8 +27,7 @@ Para compilar el proyecto, es necesario GNU Make. Si tienes otro compilador (com
 
 ## Para hacer
 
-- Rehacer la función para detectar un personaje
-- Resolver el bug de los personajes solos
 - Enlazar la librería [wkhtmltopdf](https://wkhtmltopdf.org)
 - Automatizar las pruebas
 - Mejorar el CSS
+- Optimizar el programa
