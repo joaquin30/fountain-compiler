@@ -18,14 +18,11 @@ OPCIONES:
 Opciones inexistentes o mal escritas son ignoradas.
 )";
 
-        return 0;
     } else if (cmd[{"-V", "--version"}]) {
 #ifndef PDF_SUPPORT_TRUE
         std::cout << "Versión 0.0.1 (Soporte de PDF desactivado)\n";
-        return 0;
 #else
         std::cout << "Versión 0.0.1 (Soporte de PDF activado)\n";
-        return 0;
 #endif
     } else if (!cmd(1)) {
         std::cerr << "Por lo menos debe haber un argumento\n";
@@ -42,7 +39,6 @@ Opciones inexistentes o mal escritas son ignoradas.
             } else if (cmd({"-f", "--format"}).str() == "pdf") {
 #ifndef PDF_SUPPORT_TRUE
                 std::cout << "Exportación a PDF no soportada\n";
-                return 1;
 #else
                 out.pdf_output();
 #endif

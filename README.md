@@ -32,6 +32,5 @@ Una mejor opción seria tu navegador web u otra herramienta como el mismo Wkhtml
 
 ## Para hacer
 
-- Automatizar las pruebas
 - Corregir CSS
 - Optimizar el código

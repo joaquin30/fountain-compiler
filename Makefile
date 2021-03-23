@@ -13,16 +13,20 @@ endif
 
 build/$(BIN): $(OBJS)
 	$(CXX) $(OBJS) -o $@ $(LDFLAGS)
-	find lib -name *.so* -or -name *.dll* -exec cp -prv {} build ';'
+	find lib -name *.so* -exec cp -prv {} build ';'
+	find lib -name *.dll* -exec cp -prv {} build ';'
 
 build/%.cpp.o: %.cpp
 	mkdir -p $(dir $@)
 	$(CXX) $(CFLAGS) -c $< -o $@ -D $(PFLAG)
 
-.PHONY: clean
+.PHONY: clean test
 
 clean:
 	rm -rf build
-	rm -f test/*.html test/*.pdf
+	rm -f test/*.html test/*.pdf test/*.fdx
+
+test: build/$(BIN)
+	sh test/test.sh
 
 -include $(DEPS)
