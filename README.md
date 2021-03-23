@@ -28,7 +28,7 @@ Es necesario la libreria [wkhtmltopdf](https://wkhtmltopdf.org) para generar el 
 
 No lo recomiento pero si tienes la libreria dinámica `libhtmltox` disponible en tu sistema, para compilar este proyecto con soporte de PDF copia la libreria en el folder `lib` y ejecute `make PDF_SUPPORT=1`. Si tu sistema no es linux probablemente salgan errores, pero deberian ser faciles de solucionar.
 
-Una mejor opción seria tu navegador web u otra herramienta como el mismo wkhtmltopdf, [weasyprint](https://weasyprint.org/) o [prince](https://www.princexml.com/).
+Una mejor opción sería usar tu navegador web u otra herramienta como el mismo wkhtmltopdf, [weasyprint](https://weasyprint.org/) o [prince](https://www.princexml.com/).
 
 ## Para hacer
 
