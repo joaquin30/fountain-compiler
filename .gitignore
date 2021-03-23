@@ -4,3 +4,6 @@ build
 *.html
 *.fdx
 *.so*
+*.a*
+*.dll*
+*.lib*
