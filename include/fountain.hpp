@@ -1,5 +1,4 @@
-#ifndef FOUNTAIN_HPP
-#define FOUNTAIN_HPP
+#pragma once
 
 #include <algorithm>
 #include <cctype>
@@ -8,6 +7,7 @@
 #include <string>
 #include <utility>
 #include <vector>
+#include "wkhtmltox/pdf.h"
 
 namespace fountain {
 	using namespace std;
@@ -24,15 +24,13 @@ namespace fountain {
 	};
 
     class parser {
-    	vector<pair<string, elem>> lines;
-    	string html_doc;
-    	string tex_doc;
-    	string fountain_doc;
-
+        vector<pair<string, elem>> data;
+        string output_file;
+        string html_doc;
+        string fdx_doc;
     	bool starts_with(string_view, string_view);
 		bool ends_with(string_view, string_view);
 		string trim(string_view);
-
 		bool is_action(string_view);
 		bool is_scene_heading(string_view);
 		bool is_character(string_view);
@@ -41,15 +39,13 @@ namespace fountain {
 		bool is_transition(string_view);
 		bool is_centered_text(string_view);
 		bool is_page_break(string_view);
+        string html();
+        string fdx();
 
     public:
-    	parser(const char*);
-        string html();
-        string pdf();
-		string fdx();
-        string fountain();
-        vector<pair<string, elem>> data();
+        parser(const string&, const string&);
+        void html_output();
+        void pdf_output();
+		void fdx_output();
     };
 }
-
-#endif

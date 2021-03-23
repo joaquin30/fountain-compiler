@@ -5,13 +5,13 @@
 ## Características
 
 - [x] Exportacion a HTML
-- [ ] Exportacion a PDF
+- [X] Exportacion a PDF
 - [ ] Exportacion a Final Draft
 - [x] Acciones
 - [x] Cabeceras de escena
 - [x] Personajes
 - [x] Diálogos
-- [x] Texto entre parentesis
+- [x] Texto entre paréntesis
 - [X] Transiciones
 - [ ] Diálogos dobles
 - [ ] Líricas
@@ -19,15 +19,18 @@
 - [ ] Énfasis
 - [ ] Título de la página
 - [X] Saltos de página
-- [ ] Saltos de linea
 
 ## Uso
 
-Para compilar el proyecto, es necesario GNU Make. Si tienes otro compilador (como Clang), cambia la variable `CXX` en el archivo `Makefile`. Por ahora el binario solo acepta un argumento, que es el nombre del archivo a compilar, e imprime HTML.
+El binario es generado en la carpeta `build`. Para mostrar su uso utilize la opción `-h`.
+Es necesario la libreria [Wkhtmltopdf](https://wkhtmltopdf.org) para generar el PDF, pero su compilación es complicada, por eso esta desactivada por defecto.
+Si tienes la libreria dinámica `libhtmltox` disponible en tu sistema, para compilar este proyecto con soporte de PDF ubique la libreria en el folder `lib` y ejecute `make PDF_SUPPORT=1`.
+Pero no lo recomiendo, basta con tu navegador para generar el PDF.
+Si lo quieres hacer por comando, usa la misma herramienta pero como programa (que es mucho más fácil), o usa otras opciones, como [Weasyprint](https://weasyprint.org/) o [Prince](https://www.princexml.com/).
 
 ## Para hacer
 
-- Enlazar la librería [wkhtmltopdf](https://wkhtmltopdf.org)
 - Automatizar las pruebas
-- Mejorar el CSS
-- Optimizar el programa
+- Corregir CSS
+-
+- Optimizar el código

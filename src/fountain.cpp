@@ -18,7 +18,7 @@ namespace fountain {
 		if (s1.size() < s2.size())
 			return false;
 
-		for (size_t i = s1.size() - 1, j = s2.size() - 1; j >= 0; --i, --j) {
+		for (int i = s1.size() - 1, j = s2.size() - 1; j >= 0; --i, --j) {
 			if (s1[i] != s2[j])
 				return false;
 		}
@@ -94,40 +94,50 @@ namespace fountain {
             i++;
         }
 
-        return i >= 3 && i == s.size();
+        return i >= 3 && i == (int) s.size();
 	}
 
-	parser::parser(const char* file) {
-		ifstream input(file);
-		string line;
-		while (getline(input, line)) {
-			if (line.empty())
-				lines.push_back({trim(line), elem::empty});
-            else
-				lines.push_back({trim(line), elem::action});
-		}
+	parser::parser(const string& input, const string& output) {
+        output_file = output;
+        string line;
+		if (input == "-") {
+            while (getline(cin, line)) {
+                if (line.empty())
+                    data.push_back({trim(line), elem::empty});
+                else
+                    data.push_back({trim(line), elem::action});
+            }
+        } else {
+            ifstream in(input);
+            while (getline(in, line)) {
+                if (line.empty())
+                    data.push_back({trim(line), elem::empty});
+                else
+                    data.push_back({trim(line), elem::action});
+            }
+        }
 
 		// para no comprobar si estoy en la 1ra linea
-		if (is_action(lines[0].first)) {
-			lines[0].first.erase(lines[0].first.begin());
-        } else if(is_page_break(lines[0].first)) {
-            lines[0].first = "";
-            lines[0].second = elem::page_break;
-        } else if(is_centered_text(lines[0].first)) {
-            lines[0].first = lines[0].first.substr(1, lines[0].first.size() - 2);
-			lines[0].second = elem::centered_text;
-        } else if(is_transition(lines[0].first)) {
-			lines[0].second = elem::transition;
-        } else if (is_scene_heading(lines[0].first)) {
-			lines[0].second = elem::scene_heading;
-		} else if (is_character(lines[0].first)) {
-			lines[0].second = elem::character;
+		if (is_action(data[0].first)) {
+			data[0].first.erase(data[0].first.begin());
+        } else if(is_page_break(data[0].first)) {
+            data[0].first = "";
+            data[0].second = elem::page_break;
+        } else if(is_centered_text(data[0].first)) {
+            data[0].first = data[0].first.substr(1, data[0].first.size() - 2);
+			data[0].second = elem::centered_text;
+        } else if(is_transition(data[0].first)) {
+			data[0].second = elem::transition;
+        } else if (is_scene_heading(data[0].first)) {
+			data[0].second = elem::scene_heading;
+		} else if (is_character(data[0].first)) {
+			data[0].second = elem::character;
         }
 
 		//codigo espageti
-		for (size_t i = 1; i < lines.size(); ++i) {
-			auto& [s, e] = lines[i];
-			auto& [prev_s, prev_e] = lines[i-1];
+		for (size_t i = 1; i < data.size(); ++i) {
+			auto& [s, e] = data[i];
+			auto& [prev_s, prev_e] = data[i-1];
             if (e == elem::empty) {
                 continue;
             } else if (is_action(s)) {
@@ -162,27 +172,27 @@ namespace fountain {
 					   prev_e == elem::action) {
 				prev_s.push_back('\n');
 				prev_s += s;
-				lines.erase(lines.begin() + i);
+				data.erase(data.begin() + i);
 				i--;
 			}
 		}
 
-		if (lines.back().second == elem::character)
-			lines.back().second = elem::action;
+		if (data.back().second == elem::character)
+			data.back().second = elem::action;
 
 		//ineficiente
-		for (size_t i = 0, len = lines.size() - 1; i < len; ++i) {
-			if (lines[i].second == elem::character &&
-				!(lines[i+1].second == elem::dialogue ||
-				lines[i+1].second == elem::parenthetical))
-				lines[i].second = elem::action;
+		for (size_t i = 0, len = data.size() - 1; i < len; ++i) {
+			if (data[i].second == elem::character &&
+				!(data[i+1].second == elem::dialogue ||
+				data[i+1].second == elem::parenthetical))
+				data[i].second = elem::action;
 		}
 
 	}
 
 	string parser::html() {
 		if (!html_doc.empty())
-			return html_doc;
+            return html_doc;
 
 		html_doc = R"(<!DOCTYPE html>
 <html>
@@ -192,29 +202,15 @@ namespace fountain {
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
-@page {
-    size: A4;
-    margin-top: 2.6cm;
-    margin-bottom: 3.1cm;
-	margin-left: 3.8cm;
-	margin-right: 2.6cm;
-}
-
-@media print {
-    body {
-        margin: 0;
-    }
-
-	.page_break {
-		page-break-before: always;
-	}
+.page_break {
+    page-break-before: always;
 }
 
 body {
 	font-size: 12pt;
 	font-family: 'Courier Prime', monospace;
-    width: 15.35cm;
-	margin: 10px auto;
+    width: 15.3cm;
+    margin: 1cm 1cm 1cm 1cm;
 }
 
 p {
@@ -251,7 +247,7 @@ p {
 <body>
 )";
 
-		for (auto [i, j] : lines) {
+		for (auto [i, j] : data) {
 			switch (j) {
 			case elem::action:
 				html_doc += "<p>" + i + "</p>\n";
@@ -295,7 +291,54 @@ p {
 		return html_doc;
 	}
 
-	vector<pair<string, elem>> parser::data() {
-		return lines;
+    string parser::fdx() {
+        if (!fdx_doc.empty())
+            return fdx_doc;
+
+        fdx_doc = R"(
+)";
+        return fdx_doc;
+    }
+
+    void parser::html_output() {
+        if (output_file.empty()) {
+            cout << html();
+        } else {
+            ofstream out(output_file);
+            out << html();
+        }
+    }
+
+	void parser::pdf_output() {
+		wkhtmltopdf_init(false);
+		auto gs = wkhtmltopdf_create_global_settings();
+        if (output_file.empty())
+		    wkhtmltopdf_set_global_setting(gs, "out", "-");
+        else
+		    wkhtmltopdf_set_global_setting(gs, "out", output_file.c_str());
+
+        wkhtmltopdf_set_global_setting(gs, "size.pageSize", "A4");
+        wkhtmltopdf_set_global_setting(gs, "margin.top", "1cm");
+        wkhtmltopdf_set_global_setting(gs, "margin.bottom", "1.5cm");
+        wkhtmltopdf_set_global_setting(gs, "margin.left", "2.3cm");
+        wkhtmltopdf_set_global_setting(gs, "margin.right", "1.4cm");
+        wkhtmltopdf_set_global_setting(gs, "header.fontSize", "12");
+		auto os = wkhtmltopdf_create_object_settings();
+		auto c = wkhtmltopdf_create_converter(gs);
+		wkhtmltopdf_add_object(c, os, html().c_str());
+        wkhtmltopdf_convert(c);
+        const unsigned char* tmp = nullptr;
+        wkhtmltopdf_get_output(c, &tmp);
+        wkhtmltopdf_destroy_converter(c);
+        wkhtmltopdf_deinit();
 	}
+
+    void parser::fdx_output() {
+        if (output_file.empty()) {
+            cout << fdx();
+        } else {
+            ofstream out(output_file);
+            out << fdx();
+        }
+    }
 }
