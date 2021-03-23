@@ -13,7 +13,7 @@ OPCIONES:
     -h, --help              Mostrar la ayuda
     -V, --version           Mostrar la versión
     -o, --output <archivo>  Seleccionar archivo de salida
-    -f, --format <formato>  Selecciona formato (html, fdx, pdf) de la salida
+    -f, --format <formato>  Seleccionar formato (html, fdx, pdf) de la salida
 
 Opciones inexistentes o mal escritas son ignoradas.
 )";

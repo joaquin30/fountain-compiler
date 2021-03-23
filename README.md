@@ -11,7 +11,7 @@
 - [x] Cabeceras de escena
 - [x] Personajes
 - [x] Diálogos
-- [x] Texto entre paréntesis
+- [x] Texto entre paréntesis´
 - [X] Transiciones
 - [ ] Diálogos dobles
 - [ ] Líricas
