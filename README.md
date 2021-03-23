@@ -23,14 +23,15 @@
 ## Uso
 
 El binario es generado en la carpeta `build`. Para mostrar su uso utilize la opción `-h`.
-Es necesario la libreria [Wkhtmltopdf](https://wkhtmltopdf.org) para generar el PDF, pero su compilación es complicada, por eso esta desactivada por defecto.
-Si tienes la libreria dinámica `libhtmltox` disponible en tu sistema, para compilar este proyecto con soporte de PDF ubique la libreria en el folder `lib` y ejecute `make PDF_SUPPORT=1`.
-Pero no lo recomiendo, basta con tu navegador para generar el PDF.
-Si lo quieres hacer por comando, usa la misma herramienta pero como programa (que es mucho más fácil), o usa otras opciones, como [Weasyprint](https://weasyprint.org/) o [Prince](https://www.princexml.com/).
+
+Es necesario la libreria [Wkhtmltopdf](https://wkhtmltopdf.org) para generar el PDF, pero como su compilación es complicada esta desactivada por defecto.
+
+No lo recomiento pero si tienes la libreria dinámica `libhtmltox` disponible en tu sistema, para compilar este proyecto con soporte de PDF copia la libreria en el folder `lib` y ejecute `make PDF_SUPPORT=1`. Si tu sistema no es linux probablemente salgan errores, pero deberian ser faciles de solucionar.
+
+Una mejor opción seria tu navegador web u otra herramienta como el mismo Wkhtmltopdf, [Weasyprint](https://weasyprint.org/) o [Prince](https://www.princexml.com/).
 
 ## Para hacer
 
 - Automatizar las pruebas
 - Corregir CSS
--
 - Optimizar el código
