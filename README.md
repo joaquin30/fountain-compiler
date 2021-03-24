@@ -1,6 +1,6 @@
 # Compilador de Fountain
 
-[Fountain](https://fountain.io) es un formato ligero de marcado para escribir guiones de películas. Este proyecto es un intento para escribir un compilador que soporte algunas características de Fountain en C++17.
+[Fountain](https://fountain.io) es un formato ligero de marcado para escribir guiones de películas. Este proyecto es un intento para escribir un compilador que soporte algunas características de Fountain en C++ 17.
 
 ## Características
 
@@ -32,15 +32,17 @@ Una mejor opción sería usar tu navegador web u otra herramienta como el mismo 
 
 ## Notas
 
-El CSS del HTML no es completamente fiel a las medidas exactas de un guión (hasta alli llego mi conocimiento de CSS). Para tener un guión profesional prefiera el formato FDX, que es el estándar.
+El estilo del formato HTML no es completamente fiel a las medidas exactas de un guión (hasta allí llego mi conocimiento de CSS). Para tener un guión profesional prefiera el formato FDX, que es el estándar.
 
-Aún no se implemento la prueba de errores (`try catch` o `if else`), así que no tengo idea de como pueda fallar el programa, o si fallarás si algo ocurre mal.
+Aún no se implementó la comprobación de errores en la ejecución (`try catch` o `if else`), así que no tengo idea de como pueda fallar el programa, o si fallará si algo ocurre mal.
 
-Deben haber varios errores de formato en el archivo de salida ya que la forma de parsear el archivo es lo más básica posible, por lo que, por ejemplo, no puede hacer algo tan facil como entender las negritas (aún). Este es solo un proyecto de principiante.
+Deben haber varios errores de formato en el archivo de salida ya que la forma de análisis del archivo es de lo más básico, por lo que, por ejemplo, no puede hacer algo tan fácil como entender las negritas (aún). Este es solo un proyecto de principiante.
 
-La tipografia elegida no es la ideal.
+La tipografia elegida (Courier Prime) no es la ideal, pero no está mal.
 
-Planeo portarlo a C++20 cuando GCC lo soporte, así que la base del codigo cambiará mucho.
+Planeo portarlo a C++ 20 cuando GCC lo soporte, así que la base del código cambiará.
+
+También pensaba en exportar a LaTeX, pero antes debere hacer una nueva clase.
 
 Si tienes sugerencias o aportes me ayudaría mucho que abras un nuevo *issue*.
 
