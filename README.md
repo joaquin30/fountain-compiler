@@ -30,10 +30,19 @@ No lo recomiento pero si tienes la libreria dinámica `libhtmltox` disponible en
 
 Una mejor opción sería usar tu navegador web u otra herramienta como el mismo wkhtmltopdf, [weasyprint](https://weasyprint.org/) o [prince](https://www.princexml.com/).
 
-## Para hacer
+## Notas
 
-- Corregir CSS
-- Optimizar el código
+El CSS del HTML no es completamente fiel a las medidas exactas de un guión (hasta alli llego mi conocimiento de CSS). Para tener un guión profesional prefiera el formato FDX, que es el estándar.
+
+Aún no se implemento la prueba de errores (`try catch` o `if else`), así que no tengo idea de como pueda fallar el programa, o si fallarás si algo ocurre mal.
+
+Deben haber varios errores de formato en el archivo de salida ya que la forma de parsear el archivo es lo más básica posible, por lo que, por ejemplo, no puede hacer algo tan facil como entender las negritas (aún). Este es solo un proyecto de principiante.
+
+La tipografia elegida no es la ideal.
+
+Planeo portarlo a C++20 cuando GCC lo soporte, así que la base del codigo cambiará mucho.
+
+Si tienes sugerencias o aportes me ayudaría mucho que abras un nuevo *issue*.
 
 ## Créditos
 

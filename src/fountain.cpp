@@ -145,6 +145,10 @@ namespace fountain {
 			} else if (is_page_break(s)) {
                 s = "";
                 e = elem::page_break;
+                if (prev_e == elem::empty) {
+                    data.erase(data.begin() + i - 1);
+                    i--;
+                }
             } else if (is_centered_text(s)) {
                 s = trim(s.substr(1, s.size() - 2));
 				e = elem::centered_text;
@@ -202,19 +206,34 @@ namespace fountain {
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
 <style>
-.page_break {
-    page-break-before: always;
+@page {
+    size: A4;
+    margin-left: 3.8cm;
+    margin-right: 2.5cm;
+    margin-top: 2cm;
+    margin-bottom: 2.5cm;
+}
+
+@media print {
+    .page_break {
+        page-break-before: always;
+    }
+
+    body {
+        margin: 0;
+    }
 }
 
 body {
-	font-size: 12pt;
+	font-size: 20px;
 	font-family: 'Courier Prime', monospace;
-    width: 15.3cm;
-    margin: 1cm 1cm 1cm 1cm;
+    width: 696px;
+    margin: 12px auto;
 }
 
 p {
 	margin: 0;
+    line-height: 1;
 }
 
 .scene_heading {
@@ -222,17 +241,17 @@ p {
 }
 
 .character {
-    margin-left: 5.3cm;
+    margin-left: 240px;
 }
 
 .parenthetical {
-    margin-left: 3.95cm;
-    width: 6.9cm;
+    margin-left: 180px;
+    width: 312px;
 }
 
 .dialogue {
-    margin-left: 2.65cm;
-    width: 9.55cm;
+    margin-left: 120px;
+    width: 432px;
 }
 
 .transition {
