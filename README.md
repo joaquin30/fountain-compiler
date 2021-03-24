@@ -34,3 +34,11 @@ Una mejor opción sería usar tu navegador web u otra herramienta como el mismo 
 
 - Corregir CSS
 - Optimizar el código
+
+## Créditos
+
+- [Wkhtmltopdf](https://wkhtmltopdf.org)
+- [Argh!](https://github.com/adishavit/argh)
+- [Fountain](https://fountain.io)
+- [Screenplain](http://www.screenplain.com/)
+- [GNU software](https://www.gnu.org/software/software.html)

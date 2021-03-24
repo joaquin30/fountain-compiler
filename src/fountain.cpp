@@ -309,6 +309,7 @@ p {
         }
     }
 
+#ifdef PDF_SUPPORT
 	void parser::pdf_output() {
 		wkhtmltopdf_init(false);
 		auto gs = wkhtmltopdf_create_global_settings();
@@ -322,7 +323,6 @@ p {
         wkhtmltopdf_set_global_setting(gs, "margin.bottom", "1.5cm");
         wkhtmltopdf_set_global_setting(gs, "margin.left", "2.3cm");
         wkhtmltopdf_set_global_setting(gs, "margin.right", "1.4cm");
-        wkhtmltopdf_set_global_setting(gs, "header.fontSize", "12");
 		auto os = wkhtmltopdf_create_object_settings();
 		auto c = wkhtmltopdf_create_converter(gs);
 		wkhtmltopdf_add_object(c, os, html().c_str());
@@ -332,6 +332,7 @@ p {
         wkhtmltopdf_destroy_converter(c);
         wkhtmltopdf_deinit();
 	}
+#endif
 
     void parser::fdx_output() {
         if (output_file.empty()) {

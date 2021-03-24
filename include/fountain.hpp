@@ -1,4 +1,5 @@
-#pragma once
+#ifndef FOUNTAIN_HPP
+#define FOUNTAIN_HPP
 
 #include <algorithm>
 #include <cctype>
@@ -45,7 +46,11 @@ namespace fountain {
     public:
         parser(const string&, const string&);
         void html_output();
+#ifdef PDF_SUPPORT
         void pdf_output();
+#endif
 		void fdx_output();
     };
 }
+
+#endif
